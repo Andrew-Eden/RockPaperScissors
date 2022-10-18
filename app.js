@@ -16,18 +16,21 @@ function getComputerChoice() {
 
 function getPlayerChoice() {
     let playerSelection = prompt("What's your choice?").toLowerCase();
+    console.log(playerSelection);
     return playerSelection;
 }
 
-function playRound(playerSelection, computerSelection) {
-    switch (playerSelection) {
-        case "rock":
+// function playRound(playerSelection, computerSelection) {
+//     switch (playerSelection) {
+//         case "rock":
+//             if (computerSelection === "rock") {
 
-        case "paper":
+//             }
+//         case "paper":
 
-        case "scissors":
+//         case "scissors":
 
-        default:
-            return "error";
-    }
-}
+//         default:
+//             return "error";
+//     }
+// }
