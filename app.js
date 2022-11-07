@@ -1,3 +1,44 @@
+const container = document.querySelector('#container');
+const display = document.createElement('div');
+const controls = document.createElement('div');
+const rockBtn = document.createElement('button');
+const paperBtn = document.createElement('button');
+const scissorsBtn = document.createElement('button');
+const playerRounds = document.createElement('div');
+const computerRounds = document.createElement('div');
+const winnerScreen = document.createElement('div');
+
+let playerCounter = 0;
+let computerCounter = 0;
+
+display.classList.add('display');
+controls.classList.add('controls');
+rockBtn.classList.add('rock', 'choiceBtn');
+paperBtn.classList.add('paper', 'choiceBtn');
+scissorsBtn.classList.add('scissors', 'choiceBtn');
+playerRounds.classList.add('roundCounter');
+computerRounds.classList.add('roundCounter');
+winnerScreen.classList.add('winnerScreen');
+
+display.textContent = 'Lets play Rock Paper Scissors. Select your choice. ';
+playerRounds.innerHTML = 'Player rounds: ' + playerCounter;
+computerRounds.innerHTML = 'Computer rounds: ' + computerCounter;
+rockBtn.textContent = 'Rock';
+paperBtn.textContent = 'Paper';
+scissorsBtn.textContent = 'Scissors';
+
+container.appendChild(display);
+display.appendChild(playerRounds);
+display.appendChild(computerRounds);
+container.appendChild(controls);
+controls.appendChild(rockBtn);
+controls.appendChild(paperBtn);
+controls.appendChild(scissorsBtn);
+
+rockBtn.addEventListener('click', () => { playRound("rock"); });
+paperBtn.addEventListener('click', () => { playRound("paper"); });
+scissorsBtn.addEventListener('click', () => { playRound("scissors"); });
+
 function getComputerChoice() {
     let computerSelectionRandomizer = Math.floor(Math.random() * 3) + 1;
     switch (computerSelectionRandomizer) {
@@ -13,13 +54,7 @@ function getComputerChoice() {
     return computerChoice;
 }
 
-function getPlayerChoice() {
-    let playerChoice = prompt("What's your choice? rock, paper, or scissors?").toLowerCase();
-    return playerChoice;
-}
-
-function playRound() {
-    let playerSelection = getPlayerChoice();
+function playRound(playerSelection) {
     console.log("Player choice is " + playerSelection);
     let computerSelection = getComputerChoice();
     console.log("Computer choice is " + computerSelection);
@@ -76,36 +111,35 @@ function playRound() {
         default:
             return "error";
     }
-    return winner;
+    game(winner);
 }
 
-function game() {
-    let playerCounter = 0;
-    let computerCounter = 0;
-
-    for (let i = 0; i < 5; i++) {
-        let roundResult = playRound();
-
-        if (roundResult == "player") {
-            playerCounter++;
-        }
-        else if (roundResult == "computer") {
-            computerCounter++;
-        }
-        else {
-            console.log("No winner this round");
-        }
+function game(winner) {
+    if (winner == "player") {
+        playerCounter++;
+        playerRounds.innerHTML = 'Player rounds: ' + playerCounter;
+        console.log(playerCounter);
     }
-
-    if (playerCounter > computerCounter) {
-        console.log("Player wins the game");
-    }
-    else if (computerCounter > playerCounter) {
-        console.log("Computer wins the game");
+    else if (winner == "computer") {
+        computerCounter++;
+        computerRounds.innerHTML = 'Computer rounds: ' + computerCounter;
+        console.log(computerCounter);
     }
     else {
-        console.log("After 5 rounds we do not havve a winnner");
+        console.log("No winner this round");
+    }
+
+    if (playerCounter == 5) {
+        endScreen("Player");
+    }
+    else if (computerCounter == 5) {
+        endScreen("Computer");
     }
 }
 
-window.onload = game();
+function endScreen(winner) {
+    display.style.cssText = "display: none;";
+    controls.style.cssText = "display: none;";
+    winnerScreen.innerHTML = winner + ' Wins!!';
+    container.appendChild(winnerScreen);
+}
